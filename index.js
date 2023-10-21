@@ -32,6 +32,13 @@ async function run() {
         const brandCollection = client.db("brandDB").collection("brands");
 
         // brands
+
+        app.get('/brands', async (req, res) => {
+            const cursor = brandCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
         app.post('/brands', async (req, res) => {
             const brand = req.body;
             console.log(brand);
