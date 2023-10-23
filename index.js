@@ -39,22 +39,23 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/products/:brand_name/:id', async (req, res) => {
+            const id = req.params.id;
+            const brand_name = req.params.brand_name;
+            console.log(id)
+
+            const filter = { _id: new ObjectId(id) };
+            const result = await productCollection.findOne(filter);
+
+            res.send(result);
+        })
+
         app.get('/products/:brand_name', async (req, res) => {
             const brand_name = req.params.brand_name;
 
             const query = { brand_name: brand_name };
             const cursor = productCollection.find(query);
             const result = await cursor.toArray();
-
-            res.send(result);
-        })
-
-        app.get('/products/:id', async (req, res) => {
-            const id = req.params.id;
-            console.log(id);
-
-            const filter = { _id: new ObjectId(id) };
-            const result = await productCollection.findOne(filter);
 
             res.send(result);
         })
