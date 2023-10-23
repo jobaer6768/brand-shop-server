@@ -60,6 +60,29 @@ async function run() {
             res.send(result);
         })
 
+        app.put('/products/:id', async (req, res) => {
+            const id = req.params.id;
+
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updatedProduct = req.body;
+
+            const product = {
+                $set: {
+                    name: updatedProduct.name,
+                    brand_name: updatedProduct.brand_name,
+                    image: updatedProduct.image,
+                    type: updatedProduct.type,
+                    price: updatedProduct.price,
+                    details: updatedProduct.details,
+                    rating: updatedProduct.rating
+                }
+            }
+
+            const result = await productCollection.updateOne(filter, product, options);
+            res.send(result);
+        })
+
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productCollection.insertOne(product);
