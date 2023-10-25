@@ -31,6 +31,20 @@ async function run() {
 
         const brandCollection = client.db("brandDB").collection("brands");
         const productCollection = client.db("productDB").collection("products");
+        const cartCollection = client.db("cartDB").collection("carts");
+
+        // carts
+        app.post('/carts', async (req, res) => {
+            const product = req.body;
+            const result = await cartCollection.insertOne(product);
+            res.send(result);
+        })
+
+        app.get('/carts', async (req, res) => {
+            const cursor = cartCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
         // products
         app.get('/products', async (req, res) => {
